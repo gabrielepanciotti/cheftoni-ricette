@@ -130,6 +130,12 @@
     border:1px solid var(--accent);border-radius:9px;padding:4px 8px;text-align:right;font-variant-numeric:tabular-nums}
   .iinput::-webkit-outer-spin-button,.iinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   .iunit{font-size:12px;color:var(--muted)}
+  .iask{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .iasktx{font-size:12px;color:var(--muted)}
+  .iaskbtn{border:1px solid var(--line);background:var(--bg2);color:var(--ink);cursor:pointer;font-family:var(--sans);
+    font-weight:600;font-size:12px;padding:4px 9px;border-radius:8px;transition:.15s}
+  .iaskbtn:hover{border-color:var(--accent)}
+  .iaskbtn.yes{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
   .bump{transform:scale(1.12)}
   .hint{font-size:12.5px;color:var(--muted);margin-top:14px;font-style:italic}
 
@@ -207,7 +213,7 @@
       <div class="panel pad tabpanel active" data-tab="ing">
         <h2>🧺 Ingredienti</h2>
         <ul class="ing" id="ing"></ul>
-        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. Tocca una quantità (o la ✎) per modificarla: resta fissa 📌 anche cambiando le persone, ⟲ per ripristinarla. I tempi di cottura non cambiano.</div>
+        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. Tocca una quantità (o la ✎) per cambiarla: ti chiede se riproporzionare tutto il resto o tenere fisso solo quell'ingrediente (📌, ⟲ per ripristinare). I tempi di cottura non cambiano.</div>
       </div>
     </div>
 
@@ -320,10 +326,32 @@ function startEdit(i){
   wrap.innerHTML=`<span class="iedit-box"><input class="iinput" type="number" step="any" min="0" value="${ovrCurrent(it)}">${unit?`<span class="iunit">${unit}</span>`:""}</span>`;
   const inp=wrap.querySelector(".iinput");inp.focus();inp.select();
   let done=false;
-  function commit(){if(done)return;done=true;const v=parseFloat(inp.value);if(!isNaN(v)&&v>0)OVR[i]=v;renderIngredients(false);}
+  function next(){if(done)return;const v=parseFloat(inp.value);if(isNaN(v)||v<=0){cancel();return;}done=true;askProportion(i,v);}
   function cancel(){if(done)return;done=true;renderIngredients(false);}
-  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();commit();}else if(e.key==="Escape"){e.preventDefault();cancel();}});
-  inp.addEventListener("blur",commit);
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();next();}else if(e.key==="Escape"){e.preventDefault();cancel();}});
+  inp.addEventListener("blur",next);
+}
+// after typing a new value, ask whether to rescale the whole recipe or pin just this one
+function askProportion(i,v){
+  renderIngredients(false);
+  const span=document.querySelector(`.iqty[data-i="${i}"]`);if(!span){reproportion(i,v);return;}
+  const wrap=span.parentElement;
+  wrap.innerHTML=`<span class="iask"><span class="iasktx">Riproporziono tutto?</span>`+
+    `<button class="iaskbtn yes">Tutto</button><button class="iaskbtn no">Solo questo</button></span>`;
+  wrap.querySelector(".yes").addEventListener("click",()=>reproportion(i,v));
+  wrap.querySelector(".no").addEventListener("click",()=>{OVR[i]=v;renderIngredients(false);});
+}
+// rescale the entire recipe so ingredient i becomes v (everything else follows)
+function reproportion(i,v){
+  const base=ING[i].base||1;
+  servings=Math.max(0.25,(v/base)*BASE);
+  for(const k in OVR)delete OVR[k];
+  updateCount();renderIngredients(true);
+}
+function fmtServings(n){const r=Math.round(n*10)/10;return Number.isInteger(r)?(""+r):(""+r).replace(".",",");}
+function updateCount(){
+  document.getElementById("count").textContent=fmtServings(servings);
+  document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",+c.dataset.n===servings));
 }
 function renderSteps(){
   const steps=STEPS[(HAS_PP&&pp)?"pp":"no"][mode];
@@ -338,12 +366,11 @@ function renderStatic(){
   chips.innerHTML=QUICK.map(n=>`<span class="chip" data-n="${n}">${n}</span>`).join("");
   chips.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>setServings(+c.dataset.n)));
 }
-function setServings(n){servings=Math.min(20,Math.max(1,n));
-  document.getElementById("count").textContent=servings;
-  document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("active",+c.dataset.n===servings));
-  renderIngredients(true);}
-document.getElementById("plus").addEventListener("click",()=>setServings(servings+1));
-document.getElementById("minus").addEventListener("click",()=>setServings(servings-1));
+function setServings(n){servings=Math.min(20,Math.max(1,Math.round(n)));
+  for(const k in OVR)delete OVR[k];
+  updateCount();renderIngredients(true);}
+document.getElementById("plus").addEventListener("click",()=>setServings(Math.floor(servings+1e-9)+1));
+document.getElementById("minus").addEventListener("click",()=>setServings(Math.ceil(servings-1e-9)-1));
 
 // pressure cooker (only present when HAS_PP)
 const ppBtn=document.getElementById("ppBtn");
