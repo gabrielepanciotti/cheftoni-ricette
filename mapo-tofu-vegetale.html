@@ -118,6 +118,18 @@
     background:var(--tag);border:1px solid var(--line);padding:4px 10px;border-radius:9px;transition:transform .25s,color .25s}
   .iqty .ap{font-weight:500;color:var(--muted);font-size:12px}
   .iqty.qb{color:var(--muted);font-weight:600;background:transparent;border:none;padding-right:0}
+  .iqty:not(.qb){cursor:pointer}
+  .iqty.pin{color:var(--warm);border-color:var(--warm)}
+  .pinmark{font-size:11px}
+  .iqr{display:inline-flex;align-items:center;gap:6px}
+  .iedit,.ireset{border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;
+    line-height:1;padding:3px 5px;border-radius:8px;transition:.15s}
+  .iedit:hover,.ireset:hover{color:var(--accent);background:var(--tag)}
+  .iedit-box{display:inline-flex;align-items:center;gap:5px}
+  .iinput{width:76px;font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);background:var(--bg2);
+    border:1px solid var(--accent);border-radius:9px;padding:4px 8px;text-align:right;font-variant-numeric:tabular-nums}
+  .iinput::-webkit-outer-spin-button,.iinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .iunit{font-size:12px;color:var(--muted)}
   .bump{transform:scale(1.12)}
   .hint{font-size:12.5px;color:var(--muted);margin-top:14px;font-style:italic}
 
@@ -195,7 +207,7 @@
       <div class="panel pad tabpanel active" data-tab="ing">
         <h2>🧺 Ingredienti</h2>
         <ul class="ing" id="ing"></ul>
-        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. I tempi di cottura restano gli stessi.</div>
+        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. Tocca una quantità (o la ✎) per modificarla: resta fissa 📌 anche cambiando le persone, ⟲ per ripristinarla. I tempi di cottura non cambiano.</div>
       </div>
     </div>
 
@@ -236,20 +248,22 @@ const TEMPO={"fornello": "20 min attivi + 2h ammollo", "pressione": ""};
 const HAS_PP=false;
 
 let servings=BASE, pp=false, mode="sintesi";
+const OVR={};  // per-ingredient pinned overrides: index -> absolute value
 const QUICK=[1, 4, 8, 12];
 function fracStr(v){v=Math.round(v*2)/2;if(v<=0)return"0";const w=Math.floor(v),h=(v-w)>=0.5;if(w===0)return"½";return h?w+"½":""+w;}
 function plural(n,o,m){return(Math.round(n*2)/2)<=1.5?o:m;}
 function grams(v){const r=v<100?5:10;return Math.max(r,Math.round(v/r)*r);}
 function gAp(it,f){return it.gBase?"≈ "+grams(it.gBase*f)+" g":"";}
+function fmtMl(raw){let v;if(raw<20)v=Math.round(raw);else if(raw<100)v=Math.round(raw/5)*5;else v=Math.round(raw/50)*50;
+  if(v>=1000){let l=(v/1000).toFixed(1).replace(".0","").replace(".",",");return l+" L";}return v+" ml";}
 function qtyFor(it,s){
   const f=s/BASE;
+  if(OVR[it._i]!=null)return ovrDisplay(it,OVR[it._i]);
   switch(it.kind){
     case"qb":return{q:"q.b.",ap:"",qb:true};
     case"range":{const lo=Math.max(1,Math.round(it.base*f)),hi=Math.max(lo,Math.round(it.high*f));
       return{q:(lo===hi?""+lo:lo+"–"+hi),ap:it.gBase?"≈ "+grams(it.gBase*f)+" g":""};}
-    case"ml":{let v=Math.round(it.base*f/50)*50;
-      if(v>=1000){let l=(v/1000).toFixed(1).replace(".0","").replace(".",",");return{q:l+" L",ap:""};}
-      return{q:v+" ml",ap:""};}
+    case"ml":return{q:fmtMl(it.base*f),ap:""};
     case"frac":return{q:fracStr(it.base*f),ap:gAp(it,f)};
     case"stick":{const v=it.base*f;return{q:fracStr(v)+" "+plural(v,it.one,it.many),ap:gAp(it,f)};}
     case"g":{const g=grams(it.base*f)+" g";let ap="";
@@ -260,14 +274,56 @@ function qtyFor(it,s){
   }
   return{q:"",ap:""};
 }
+// absolute (pinned) value -> display, in the ingredient's own unit
+function ovrDisplay(it,val){
+  switch(it.kind){
+    case"ml":return{q:fmtMl(val),ap:"",ovr:true};
+    case"stick":return{q:fracStr(val)+" "+plural(val,it.one,it.many),ap:(it.gBase&&it.base)?"≈ "+grams(it.gBase*(val/it.base))+" g":"",ovr:true};
+    case"frac":return{q:fracStr(val),ap:"",ovr:true};
+    case"range":return{q:""+Math.round(val),ap:"",ovr:true};
+    default:return{q:grams(val)+" g",ap:"",ovr:true};
+  }
+}
+// numeric value currently shown for ingredient i (prefills the editor)
+function ovrCurrent(it){
+  if(OVR[it._i]!=null)return OVR[it._i];
+  const f=servings/BASE;
+  switch(it.kind){
+    case"ml":return Math.round(it.base*f);
+    case"stick":case"frac":return Math.round(it.base*f*2)/2;
+    case"range":return Math.round(it.base*f);
+    default:return grams(it.base*f);
+  }
+}
+function ovrUnit(it){return it.kind==="ml"?"ml":(it.kind==="stick"?(it.many||"pz"):(it.kind==="frac"||it.kind==="range"?"":"g"));}
 function renderIngredients(bump){
   const ul=document.getElementById("ing");ul.innerHTML="";
-  ING.forEach(it=>{const{q,ap,qb}=qtyFor(it,servings);const li=document.createElement("li");
+  ING.forEach((it,i)=>{it._i=i;const{q,ap,qb,ovr}=qtyFor(it,servings);const li=document.createElement("li");
+    const reset=ovr?`<button class="ireset" data-i="${i}" title="Ripristina" aria-label="Ripristina">⟲</button>`:"";
+    const edit=qb?"":`<button class="iedit" data-i="${i}" title="Modifica quantità" aria-label="Modifica quantità">✎</button>`;
     li.innerHTML=`<span class="iname">${it.name}${it.note?`<span class="inote">${it.note}</span>`:""}</span>`+
-      `<span class="iqty${qb?" qb":""}">${q}${ap?` <span class="ap">(${ap})</span>`:""}</span>`;
+      `<span class="iqr"><span class="iqty${qb?" qb":""}${ovr?" pin":""}" data-i="${i}">${q}${ap?` <span class="ap">(${ap})</span>`:""}${ovr?' <span class="pinmark">📌</span>':''}</span>${reset}${edit}</span>`;
     ul.appendChild(li);});
+  bindIngEdits();
   if(bump)document.querySelectorAll(".iqty").forEach(el=>{if(el.classList.contains("qb"))return;
     el.classList.add("bump");setTimeout(()=>el.classList.remove("bump"),250);});
+}
+function bindIngEdits(){
+  document.querySelectorAll(".iedit").forEach(b=>b.addEventListener("click",()=>startEdit(+b.dataset.i)));
+  document.querySelectorAll(".iqty:not(.qb)").forEach(el=>el.addEventListener("click",()=>startEdit(+el.dataset.i)));
+  document.querySelectorAll(".ireset").forEach(b=>b.addEventListener("click",()=>{delete OVR[+b.dataset.i];renderIngredients(false);}));
+}
+function startEdit(i){
+  const it=ING[i];if(it.kind==="qb")return;
+  const span=document.querySelector(`.iqty[data-i="${i}"]`);if(!span)return;
+  const wrap=span.parentElement,unit=ovrUnit(it);
+  wrap.innerHTML=`<span class="iedit-box"><input class="iinput" type="number" step="any" min="0" value="${ovrCurrent(it)}">${unit?`<span class="iunit">${unit}</span>`:""}</span>`;
+  const inp=wrap.querySelector(".iinput");inp.focus();inp.select();
+  let done=false;
+  function commit(){if(done)return;done=true;const v=parseFloat(inp.value);if(!isNaN(v)&&v>0)OVR[i]=v;renderIngredients(false);}
+  function cancel(){if(done)return;done=true;renderIngredients(false);}
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();commit();}else if(e.key==="Escape"){e.preventDefault();cancel();}});
+  inp.addEventListener("blur",commit);
 }
 function renderSteps(){
   const steps=STEPS[(HAS_PP&&pp)?"pp":"no"][mode];

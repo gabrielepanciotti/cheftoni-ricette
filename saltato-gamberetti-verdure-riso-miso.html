@@ -118,6 +118,18 @@
     background:var(--tag);border:1px solid var(--line);padding:4px 10px;border-radius:9px;transition:transform .25s,color .25s}
   .iqty .ap{font-weight:500;color:var(--muted);font-size:12px}
   .iqty.qb{color:var(--muted);font-weight:600;background:transparent;border:none;padding-right:0}
+  .iqty:not(.qb){cursor:pointer}
+  .iqty.pin{color:var(--warm);border-color:var(--warm)}
+  .pinmark{font-size:11px}
+  .iqr{display:inline-flex;align-items:center;gap:6px}
+  .iedit,.ireset{border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:13px;
+    line-height:1;padding:3px 5px;border-radius:8px;transition:.15s}
+  .iedit:hover,.ireset:hover{color:var(--accent);background:var(--tag)}
+  .iedit-box{display:inline-flex;align-items:center;gap:5px}
+  .iinput{width:76px;font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);background:var(--bg2);
+    border:1px solid var(--accent);border-radius:9px;padding:4px 8px;text-align:right;font-variant-numeric:tabular-nums}
+  .iinput::-webkit-outer-spin-button,.iinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .iunit{font-size:12px;color:var(--muted)}
   .bump{transform:scale(1.12)}
   .hint{font-size:12.5px;color:var(--muted);margin-top:14px;font-style:italic}
 
@@ -167,7 +179,7 @@
     <h1>Saltato di gamberetti e verdure su riso con miso</h1>
     <p class="lede">> Sintesi: un saltato orientale veloce dove i gamberetti dolci incontrano l'umami profondo di shiitake e miso, sopra un riso jasmine che fa da tela neutra. Pronto in ~25 minuti, copre 6 dei 7 sapori, e tiene basse le calorie senza rinunciare a 30 g di proteine a porzione. Il miso entra fuori dal fuoco: niente bollore, così resta vivo e fermentato — la marcia in più per l'intestino.</p>
     <div class="badges">
-      <span class="badge time" id="timeBadge">⏱ ≈ 25 min</span>
+      <span class="badge time" id="timeBadge">⏱ ≈ 30 min</span>
       <span class="badge">ricetta</span>
       <span class="badge">piatto-unico</span>
     </div>
@@ -194,7 +206,7 @@
       <div class="panel pad tabpanel active" data-tab="ing">
         <h2>🧺 Ingredienti</h2>
         <ul class="ing" id="ing"></ul>
-        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. I tempi di cottura restano gli stessi.</div>
+        <div class="hint">Quantità in grammi (tra parentesi la misura a occhio); si adattano alle persone. Tocca una quantità (o la ✎) per modificarla: resta fissa 📌 anche cambiando le persone, ⟲ per ripristinarla. I tempi di cottura non cambiano.</div>
       </div>
     </div>
 
@@ -221,7 +233,7 @@
         <h2>🎚️ Sapori coperti</h2>
         <div class="prose"><p>| Sapore | Fonte | Intensità |
 |---|---|---|
-| <b>Dolce</b> | Gamberetti, peperoni, zucchine | 2/3 |
+| <b>Dolce</b> | Gamberetti, peperoni, zucchine, carote | 2/3 |
 | <b>Salato</b> | Miso + tamari | 2/3 |
 | <b>Acido</b> | Succo di lime a crudo | 1/3 |
 | <b>Amaro</b> | Lieve dei germogli e degli shiitake | 1/3 |
@@ -241,27 +253,29 @@
 
 <script>
 const BASE=2;
-const ING=[{"name": "Gamberetti", "kind": "g", "base": 250, "hint": "≈ 12-15 code sgusciate"}, {"name": "Riso jasmine", "kind": "g", "base": 150, "hint": "≈ 1 tazza colma, crudo"}, {"name": "Zucchine", "kind": "stick", "base": 2, "one": "zucchina", "many": "zucchine", "gBase": 300}, {"name": "Peperoni", "kind": "stick", "base": 1, "one": "peperone", "many": "peperoni", "gBase": 180}, {"name": "Germogli di soia", "kind": "g", "base": 150, "hint": "due manciate abbondanti"}, {"name": "Shiitake", "kind": "g", "base": 90, "hint": "4-5 cappelle fresche"}, {"name": "Aglio", "kind": "stick", "base": 2, "one": "spicchio", "many": "spicchi"}, {"name": "Zenzero", "kind": "g", "base": 12, "hint": "un pezzo come il pollice"}, {"name": "Miso", "kind": "g", "base": 22, "hint": "1 cucchiaio colmo, bianco"}, {"name": "Salsa di soia (tamari)", "kind": "ml", "base": 15}, {"name": "Olio (alto punto di fumo)", "kind": "ml", "base": 15}, {"name": "Olio di sesamo tostato", "kind": "ml", "base": 5}, {"name": "Lime", "kind": "frac", "base": 0.5}, {"name": "Peperoncino", "kind": "qb"}];
-const STEPS={"no": {"sintesi": [["Riso", "Sciacqua il riso, cuoci per assorbimento (150 g + 225 ml acqua + sale), 12 min + 5 di riposo coperto."], ["Prep", "Asciuga e sala i gamberetti. Taglia verdure e funghi. Sciogli miso + tamari in 2 cucchiai d'acqua calda."], ["Gamberetti", "Wok rovente, olio: gamberetti 45-60 sec per lato fino a rosa-opaco. Togli."], ["Verdure", "Shiitake 3 min → aglio/zenzero 30 sec → peperoni e zucchine 3-4 min a fiamma alta, croccanti."], ["Chiusura", "Rientrano gamberetti + germogli + miso sui bordi, 60-90 sec. Fuori fuoco: sesamo + lime."], ["Servi", "Su letto di riso jasmine, col fondo del wok."]], "full": [["Riso jasmine", "Sciacqua <b>150 g<\/b> di riso sotto acqua fredda finché esce quasi limpida (via l'amido → chicchi sgranati). Per assorbimento: riso + <b>225 ml<\/b> d'acqua + 1 pizzico di sale, coperchio, fuoco basso <b>12 min<\/b>; spegni e lascia <b>5 min<\/b> coperto senza alzare il coperchio. Sgrana con la forchetta."], ["Mise en place", "Asciuga <b>benissimo<\/b> i gamberetti con carta (l'acqua impedisce la rosolatura), sala appena. Zucchine a mezzelune di <b>½ cm<\/b>, peperoni a listarelle, shiitake a fette spesse. Sciogli <b>22 g di miso<\/b> + <b>15 ml tamari<\/b> in <b>2 cucchiai d'acqua calda non bollente<\/b> fino a cremina liscia senza grumi."], ["Gamberetti", "Metà olio nel wok a <b>fuoco vivo<\/b>. Gamberetti in <b>un solo strato<\/b>, fermi <b>45-60 sec<\/b> finché prendono colore; girali, altri <b>30-40 sec<\/b> fino a <b>rosa-opaco<\/b> — non oltre, finiscono dopo. Togli e tieni da parte."], ["Funghi + verdure", "Resto dell'olio. <b>Shiitake 3 min<\/b>: rilasciano acqua poi dorano (servono <b>10-15 min totali<\/b> di cottura — il lentinano va neutralizzato). Aglio + zenzero + peperoncino <b>30 sec<\/b> al profumo. Fiamma <b>massima<\/b>: peperoni e zucchine <b>3-4 min<\/b> tossando, devono restare <b>croccanti e vivaci<\/b>."], ["Chiusura al miso", "Rimetti i gamberetti, aggiungi i <b>germogli<\/b>, versa la cremina di miso sul <b>bordo rovente<\/b> del wok (non al centro): sfrigolio e profumo. Salta <b>60-90 sec<\/b>, i germogli restano croccanti. <b>Spegni.<\/b> Fuori dal fuoco: <b>5 ml olio di sesamo<\/b> + succo di <b>½ lime<\/b>, una mescolata. Il miso non deve mai bollire — così resta fermentato e vivo."], ["Impiatto", "Letto di <b>riso jasmine<\/b>, sopra il saltato con tutto il fondo. Finitura: scorza/succo di lime e peperoncino crudo a piacere."]]}};
-const TIPS=[["Asciuga i gamberetti.", "Acqua = vapore = lessati, non rosolati. Carta da cucina e una pacca, poi sale."], ["Il miso non bolle mai.", "Va sciolto a parte e aggiunto a fine, sul bordo del wok o fuori dal fuoco: il calore violento uccide i fermenti e lo rende amaro."], ["Shiitake ≥ 10-15 min.", "Il lentinano crudo è irritante: falli partire per primi e dagli tempo, l'ammollo non conta come cottura."], ["Germogli all'ultimo.", "60-90 secondi bastano: devono scaldarsi restando croccanti, non appassire."], ["Vuoi più proteine / piatto più ricco?", "Un uovo strapazzato a parte da unire al riso (chahan) o saltare tutto col riso freddo come fried rice: più calorico-denso, perfetto se punti al surplus pulito."]];
-const TEMPO={"fornello": "≈ 25 min", "pressione": ""};
+const ING=[{"name": "Gamberetti", "kind": "g", "base": 250, "hint": "≈ 12-15 code sgusciate"}, {"name": "Riso jasmine", "kind": "g", "base": 150, "hint": "≈ 1 tazza colma, crudo"}, {"name": "Zucchine", "kind": "stick", "base": 2, "one": "zucchina", "many": "zucchine", "gBase": 300}, {"name": "Peperoni", "kind": "stick", "base": 1, "one": "peperone", "many": "peperoni", "gBase": 180}, {"name": "Carota", "kind": "stick", "base": 1, "one": "carota", "many": "carote", "gBase": 70}, {"name": "Germogli di soia", "kind": "g", "base": 150, "hint": "due manciate abbondanti"}, {"name": "Shiitake (secchi)", "kind": "g", "base": 15, "hint": "secchi, ~6-8 cappelle (≈ 90 g reidratati)"}, {"name": "Aglio", "kind": "stick", "base": 2, "one": "spicchio", "many": "spicchi"}, {"name": "Zenzero", "kind": "g", "base": 12, "hint": "un pezzo come il pollice"}, {"name": "Miso", "kind": "g", "base": 22, "hint": "1 cucchiaio colmo, bianco"}, {"name": "Salsa di soia (tamari)", "kind": "ml", "base": 15}, {"name": "Olio (alto punto di fumo)", "kind": "ml", "base": 15}, {"name": "Olio di sesamo tostato", "kind": "ml", "base": 5}, {"name": "Lime", "kind": "frac", "base": 0.5}, {"name": "Peperoncino", "kind": "qb"}];
+const STEPS={"no": {"sintesi": [["Shiitake secchi", "Reidrata gli shiitake secchi in ~200 ml d'acqua calda 20-30 min. Strizza, affetta; filtra e tieni l'acqua."], ["Riso", "Sciacqua il riso, cuoci per assorbimento (150 g + 225 ml acqua + sale), 12 min + 5 di riposo coperto."], ["Prep", "Asciuga e sala i gamberetti. Taglia zucchine, peperoni, carote. Sciogli miso + tamari nell'acqua d'ammollo."], ["Gamberetti", "Wok rovente, olio: gamberetti 45-60 sec per lato fino a rosa-opaco. Togli."], ["Verdure", "Shiitake 3 min + sobbollire 8 min nell'acqua d'ammollo (cottura ≥10-15 min!) → aglio/zenzero 30 sec → carote 1 min → peperoni e zucchine 3 min, croccanti."], ["Chiusura", "Rientrano gamberetti + germogli + miso sui bordi, 60-90 sec. Fuori fuoco: sesamo + lime."], ["Servi", "Su letto di riso, col fondo del wok."]], "full": [["Shiitake secchi", "Copri <b>15 g di shiitake secchi<\/b> con <b>~200 ml d'acqua calda<\/b> e lascia <b>20-30 min<\/b> finché morbidi. Strizzali, togli il gambo duro, affettali. <b>Filtra l'acqua d'ammollo<\/b> con un colino fine e tienila: è un brodo umami che userai per il miso."], ["Riso", "Sciacqua <b>150 g<\/b> di riso sotto acqua fredda finché esce quasi limpida (via l'amido → chicchi sgranati). Per assorbimento: riso + <b>225 ml<\/b> d'acqua + 1 pizzico di sale, coperchio, fuoco basso <b>12 min<\/b>; spegni e lascia <b>5 min<\/b> coperto senza alzare il coperchio. Sgrana con la forchetta. *(Riso integrale a cottura veloce: ~1,6× il peso in acqua, segui il pacco.)*"], ["Mise en place", "Asciuga <b>benissimo<\/b> i gamberetti con carta (l'acqua impedisce la rosolatura), sala appena. Zucchine a mezzelune di <b>½ cm<\/b>, peperoni a listarelle, <b>carote a julienne sottile<\/b>. Sciogli <b>22 g di miso<\/b> + <b>15 ml tamari<\/b> in <b>2-3 cucchiai dell'acqua d'ammollo degli shiitake<\/b> (tiepida, non bollente) fino a cremina liscia senza grumi."], ["Gamberetti", "Metà olio nel wok a <b>fuoco vivo<\/b>. Gamberetti in <b>un solo strato<\/b>, fermi <b>45-60 sec<\/b> finché prendono colore; girali, altri <b>30-40 sec<\/b> fino a <b>rosa-opaco<\/b> — non oltre, finiscono dopo. Togli e tieni da parte."], ["Funghi + verdure", "Resto dell'olio. <b>Shiitake reidratati 3 min<\/b>, poi <b>4-5 cucchiai dell'acqua d'ammollo<\/b> e <b>sobbollire ~8 min<\/b> a fuoco medio finché quasi asciutto: così completano i <b>10-15 min di cottura<\/b> che neutralizzano il lentinano (l'ammollo non conta). Aglio + zenzero + peperoncino <b>30 sec<\/b> al profumo. Fiamma <b>massima<\/b>: prima le <b>carote 1 min<\/b> (le più dure), poi <b>peperoni e zucchine 3 min<\/b> tossando — devono restare <b>croccanti e vivaci<\/b>."], ["Chiusura al miso", "Rimetti i gamberetti, aggiungi i <b>germogli<\/b>, versa la cremina di miso sul <b>bordo rovente<\/b> del wok (non al centro): sfrigolio e profumo. Salta <b>60-90 sec<\/b>, i germogli restano croccanti. <b>Spegni.<\/b> Fuori dal fuoco: <b>5 ml olio di sesamo<\/b> + succo di <b>½ lime<\/b>, una mescolata. Il miso non deve mai bollire — così resta fermentato e vivo."], ["Impiatto", "Letto di <b>riso<\/b>, sopra il saltato con tutto il fondo. Finitura: scorza/succo di lime e peperoncino crudo a piacere."]]}};
+const TIPS=[["Asciuga i gamberetti.", "Acqua = vapore = lessati, non rosolati. Carta da cucina e una pacca, poi sale."], ["Il miso non bolle mai.", "Va sciolto a parte e aggiunto a fine, sul bordo del wok o fuori dal fuoco: il calore violento uccide i fermenti e lo rende amaro."], ["Shiitake ≥ 10-15 min.", "Il lentinano crudo è irritante: se usi i secchi, dopo l'ammollo falli sobbollire nell'acqua di reidratazione — l'ammollo NON conta come cottura, serve calore vero."], ["Germogli all'ultimo.", "60-90 secondi bastano: devono scaldarsi restando croccanti, non appassire."], ["Vuoi più proteine / piatto più ricco?", "Un uovo strapazzato a parte da unire al riso (chahan) o saltare tutto col riso freddo come fried rice: più calorico-denso, perfetto se punti al surplus pulito."]];
+const TEMPO={"fornello": "≈ 30 min", "pressione": ""};
 const HAS_PP=false;
 
 let servings=BASE, pp=false, mode="sintesi";
+const OVR={};  // per-ingredient pinned overrides: index -> absolute value
 const QUICK=[1, 2, 4, 6];
 function fracStr(v){v=Math.round(v*2)/2;if(v<=0)return"0";const w=Math.floor(v),h=(v-w)>=0.5;if(w===0)return"½";return h?w+"½":""+w;}
 function plural(n,o,m){return(Math.round(n*2)/2)<=1.5?o:m;}
 function grams(v){const r=v<100?5:10;return Math.max(r,Math.round(v/r)*r);}
 function gAp(it,f){return it.gBase?"≈ "+grams(it.gBase*f)+" g":"";}
+function fmtMl(raw){let v;if(raw<20)v=Math.round(raw);else if(raw<100)v=Math.round(raw/5)*5;else v=Math.round(raw/50)*50;
+  if(v>=1000){let l=(v/1000).toFixed(1).replace(".0","").replace(".",",");return l+" L";}return v+" ml";}
 function qtyFor(it,s){
   const f=s/BASE;
+  if(OVR[it._i]!=null)return ovrDisplay(it,OVR[it._i]);
   switch(it.kind){
     case"qb":return{q:"q.b.",ap:"",qb:true};
     case"range":{const lo=Math.max(1,Math.round(it.base*f)),hi=Math.max(lo,Math.round(it.high*f));
       return{q:(lo===hi?""+lo:lo+"–"+hi),ap:it.gBase?"≈ "+grams(it.gBase*f)+" g":""};}
-    case"ml":{let v=Math.round(it.base*f/50)*50;
-      if(v>=1000){let l=(v/1000).toFixed(1).replace(".0","").replace(".",",");return{q:l+" L",ap:""};}
-      return{q:v+" ml",ap:""};}
+    case"ml":return{q:fmtMl(it.base*f),ap:""};
     case"frac":return{q:fracStr(it.base*f),ap:gAp(it,f)};
     case"stick":{const v=it.base*f;return{q:fracStr(v)+" "+plural(v,it.one,it.many),ap:gAp(it,f)};}
     case"g":{const g=grams(it.base*f)+" g";let ap="";
@@ -272,14 +286,56 @@ function qtyFor(it,s){
   }
   return{q:"",ap:""};
 }
+// absolute (pinned) value -> display, in the ingredient's own unit
+function ovrDisplay(it,val){
+  switch(it.kind){
+    case"ml":return{q:fmtMl(val),ap:"",ovr:true};
+    case"stick":return{q:fracStr(val)+" "+plural(val,it.one,it.many),ap:(it.gBase&&it.base)?"≈ "+grams(it.gBase*(val/it.base))+" g":"",ovr:true};
+    case"frac":return{q:fracStr(val),ap:"",ovr:true};
+    case"range":return{q:""+Math.round(val),ap:"",ovr:true};
+    default:return{q:grams(val)+" g",ap:"",ovr:true};
+  }
+}
+// numeric value currently shown for ingredient i (prefills the editor)
+function ovrCurrent(it){
+  if(OVR[it._i]!=null)return OVR[it._i];
+  const f=servings/BASE;
+  switch(it.kind){
+    case"ml":return Math.round(it.base*f);
+    case"stick":case"frac":return Math.round(it.base*f*2)/2;
+    case"range":return Math.round(it.base*f);
+    default:return grams(it.base*f);
+  }
+}
+function ovrUnit(it){return it.kind==="ml"?"ml":(it.kind==="stick"?(it.many||"pz"):(it.kind==="frac"||it.kind==="range"?"":"g"));}
 function renderIngredients(bump){
   const ul=document.getElementById("ing");ul.innerHTML="";
-  ING.forEach(it=>{const{q,ap,qb}=qtyFor(it,servings);const li=document.createElement("li");
+  ING.forEach((it,i)=>{it._i=i;const{q,ap,qb,ovr}=qtyFor(it,servings);const li=document.createElement("li");
+    const reset=ovr?`<button class="ireset" data-i="${i}" title="Ripristina" aria-label="Ripristina">⟲</button>`:"";
+    const edit=qb?"":`<button class="iedit" data-i="${i}" title="Modifica quantità" aria-label="Modifica quantità">✎</button>`;
     li.innerHTML=`<span class="iname">${it.name}${it.note?`<span class="inote">${it.note}</span>`:""}</span>`+
-      `<span class="iqty${qb?" qb":""}">${q}${ap?` <span class="ap">(${ap})</span>`:""}</span>`;
+      `<span class="iqr"><span class="iqty${qb?" qb":""}${ovr?" pin":""}" data-i="${i}">${q}${ap?` <span class="ap">(${ap})</span>`:""}${ovr?' <span class="pinmark">📌</span>':''}</span>${reset}${edit}</span>`;
     ul.appendChild(li);});
+  bindIngEdits();
   if(bump)document.querySelectorAll(".iqty").forEach(el=>{if(el.classList.contains("qb"))return;
     el.classList.add("bump");setTimeout(()=>el.classList.remove("bump"),250);});
+}
+function bindIngEdits(){
+  document.querySelectorAll(".iedit").forEach(b=>b.addEventListener("click",()=>startEdit(+b.dataset.i)));
+  document.querySelectorAll(".iqty:not(.qb)").forEach(el=>el.addEventListener("click",()=>startEdit(+el.dataset.i)));
+  document.querySelectorAll(".ireset").forEach(b=>b.addEventListener("click",()=>{delete OVR[+b.dataset.i];renderIngredients(false);}));
+}
+function startEdit(i){
+  const it=ING[i];if(it.kind==="qb")return;
+  const span=document.querySelector(`.iqty[data-i="${i}"]`);if(!span)return;
+  const wrap=span.parentElement,unit=ovrUnit(it);
+  wrap.innerHTML=`<span class="iedit-box"><input class="iinput" type="number" step="any" min="0" value="${ovrCurrent(it)}">${unit?`<span class="iunit">${unit}</span>`:""}</span>`;
+  const inp=wrap.querySelector(".iinput");inp.focus();inp.select();
+  let done=false;
+  function commit(){if(done)return;done=true;const v=parseFloat(inp.value);if(!isNaN(v)&&v>0)OVR[i]=v;renderIngredients(false);}
+  function cancel(){if(done)return;done=true;renderIngredients(false);}
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();commit();}else if(e.key==="Escape"){e.preventDefault();cancel();}});
+  inp.addEventListener("blur",commit);
 }
 function renderSteps(){
   const steps=STEPS[(HAS_PP&&pp)?"pp":"no"][mode];
