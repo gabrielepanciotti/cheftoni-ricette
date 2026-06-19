@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minestra di riso, fagiolini e roveja al brodo di shiitake · ChefToni</title>
+<title>Cicoria ripassata aglio e peperoncino · ChefToni</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -164,14 +164,13 @@
 
   <div class="hero">
     <div class="eyebrow">Cervello · ricetta</div>
-    <h1>Minestra di riso, fagiolini e roveja al brodo di shiitake</h1>
-    <p class="lede">Brodosa e completa: il soffritto dà dolcezza, gli shiitake secchi un brodo (dashi) dall'umami profondo, riso e legumi la sostanza. La più idratante delle zuppe — pronta in circa 35 minuti, e il giorno dopo è ancora più buona.</p>
+    <h1>Cicoria ripassata aglio e peperoncino</h1>
+    <p class="lede">> Il contorno-piatto del centro-sud: [[cicoria]] <b>lessata</b> per domare l'amaro selvatico, poi <b>ripassata</b> in padella nella triade [[aglio]]–[[peperoncino]]–[[olio-extravergine-di-oliva]]. Amaro, piccante e grasso che si tengono in equilibrio, chiusi da una spruzzata di [[limone]] che apre il piatto e migliora l'assorbimento del ferro. Pochi gesti, due cotture: la prima toglie, la seconda dà. Versione facoltativa con [[alici-e-sardine]] sciolte nel soffritto per un umami salato che arrotonda l'amaro — la chiave romana, identica a quella delle puntarelle.</p>
     <div class="badges">
-      <span class="badge time" id="timeBadge">⏱ 40 min</span>
-      <span class="badge">Umami</span>
-      <span class="badge">Vegetariano</span>
-      <span class="badge">Idratante</span>
-      <span class="badge">Di stagione · giugno</span>
+      <span class="badge time" id="timeBadge">⏱ 30 min</span>
+      <span class="badge">ricetta</span>
+      <span class="badge">contorno</span>
+      <span class="badge">verdura</span>
     </div>
   </div>
 
@@ -181,15 +180,10 @@
         <div class="serv-head">👥 Persone</div>
         <div class="stepper">
           <button id="minus" aria-label="meno">−</button>
-          <div class="count"><div class="n" id="count">2</div><div class="u">porzioni</div></div>
+          <div class="count"><div class="n" id="count">4</div><div class="u">porzioni</div></div>
           <button id="plus" aria-label="più">+</button>
         </div>
         <div class="chips" id="chips"></div>
-
-        <div class="optrow">
-          <span class="l">🍲 Pentola a pressione<small>utile per riso integrale e legumi</small></span>
-          <span class="switch" id="ppBtn" role="switch" tabindex="0"><span class="sk"></span></span>
-        </div>
       </div>
 
       <nav class="tabnav" id="tabnav">
@@ -214,7 +208,6 @@
             <button data-mode="full" title="Dettagliata — passo-passo da chef" aria-label="Dettagliata"><span class="si">🔍</span><span class="tx">Dettagliata</span></button>
           </div>
         </div>
-        <div class="ppbanner" id="ppbanner">🍲 <span><b>Pentola a pressione</b> — Roveja: niente ammollo, 25 min → 15 min. Riso integrale: 18 min → 15 min. I fagiolini si aggiungono dopo, a pressione rilasciata, per restare verdi.</span></div>
         <ol class="steps" id="steps"></ol>
       </div>
       <div class="panel pad tabpanel" data-tab="tips">
@@ -223,32 +216,27 @@
       </div>
       <div class="panel pad extra">
         <h2>❄️ Conservazione &amp; riscaldo</h2>
-        <div class="prose"><ul><li><b>Frigo:</b> fino a 3 giorni in contenitore ermetico.</li><li><b>Riscaldo:</b> a fuoco dolce, allungando con acqua o brodo caldo perché il riso si rapprende. Aggiungi l'olio a crudo solo dopo aver riscaldato.</li><li><b>Congelamento:</b> possibile ma il riso perde un po' di consistenza; se prevedi di congelarla, tieni il riso leggermente più al dente.</li></ul></div>
-      </div>
-      <div class="panel pad extra">
-        <h2>🎚️ Sapori coperti</h2>
-        <div class="prose"><p>Salato, <b>umami</b> marcato (shiitake), <b>dolce</b> (soffritto e carota), con un fondo <b>amaro</b> leggero dei fagiolini. L'asse <b>acido</b> è quello da spingere in finitura (scorza di limone o aceto), mentre tamari e nori rinforzano l'umami.</p></div>
+        <div class="prose"><ul><li><b>Frigo</b>: 2 giorni in contenitore chiuso (le verdure a foglia cotte si conservano meno dei legumi).</li><li><b>Congelamento</b>: ottimo (~3 mesi). Porziona; congela <b>senza</b> il limone, da aggiungere fresco al riscaldo.</li><li><b>Riscaldo</b>: padella a fuoco vivace con un filo d'olio, 2–3 minuti. <b>Mai a bollore o microonde lungo</b>: tornerebbe acquosa e perderebbe la lucidatura.</li></ul></div>
       </div>
     </div>
   </div>
 
   <footer>
-    Generato dal vault ChefToni · dosi base per 2 persone ·
-    <a href="https://telegra.ph/Minestra-di-riso-fagiolini-e-legumi-al-brodo-di-shiitake-06-03">versione testuale</a>
+    Generato dal vault ChefToni · dosi base per 4 persone
 
   </footer>
 </div>
 
 <script>
-const BASE=2;
-const ING=[{"name": "Shiitake secchi", "kind": "range", "note": "per il brodo dashi", "base": 4, "high": 5, "gBase": 18}, {"name": "Acqua calda", "kind": "ml", "note": "ammollo + brodo", "base": 800}, {"name": "Cipolla", "kind": "frac", "base": 0.5, "gBase": 60}, {"name": "Carota", "kind": "frac", "base": 1, "gBase": 70}, {"name": "Sedano", "kind": "stick", "base": 1, "one": "costa", "many": "coste", "gBase": 40}, {"name": "Fagiolini", "kind": "g", "note": "spuntati, a tocchetti di ~3 cm", "base": 120}, {"name": "Roveja", "kind": "g", "note": "niente ammollo · ~25 min (~15 in pentola a pressione)", "base": 80}, {"name": "Riso integrale", "kind": "g", "note": "o riso “cinese”", "base": 80, "spoon": 4}, {"name": "Olio extravergine", "kind": "g", "note": "+ un filo a crudo", "base": 20, "spoon": 2}, {"name": "Sale", "kind": "qb"}, {"name": "Pepe", "kind": "qb"}];
-const STEPS={"no": {"sintesi": [["Brodo di shiitake", "Ammolla gli shiitake nell'acqua calda 15-20 min, strizzali e filtra il liquido: è il brodo. Affetta i cappelli, scarta i gambi legnosi."], ["Mise en place", "Brunoise di cipolla, carota e sedano. Fagiolini spuntati alle due estremità e a tocchetti di ~3 cm."], ["Soffritto", "Soffriggi cipolla, carota e sedano nell'olio, 5 min: biondo e traslucido."], ["Roveja", "Sfuma col brodo, unisci shiitake e roveja (la più lenta, ~25 min). Sobbolle 5 min."], ["Riso", "Aggiungi il riso e cuoci 8 min a fuoco gentile."], ["Fagiolini", "Unisci i fagiolini, ~12 min, tenendola brodosa con acqua calda."], ["Finitura", "Sale, pepe, riposo 2-3 min, filo d'olio a crudo. Volendo, fuori dal fuoco un cucchiaino di tamari e qualche goccia di olio di sesamo tostato: spinta umami giapponese."]], "full": [["Il brodo di shiitake (parti da qui)", "Falla per prima cosa: mentre gli shiitake sono in ammollo prepari verdure e soffritto, così non perdi tempo. Copri gli shiitake con l'acqua calda — non bollente — e lascia 15-20 minuti. Strizzali sul liquido e filtralo con un colino fine: sul fondo resta sempre sabbia. Questo è il tuo brodo. Affetta i cappelli; scarta i gambi legnosi."], ["Mise en place", "Taglia cipolla, carota e sedano a brunoise (dadini di 3-4 mm): nel brodo si sciolgono e distribuiscono dolcezza. I fagiolini: lavali, spunta <b>entrambe le estremità<\/b> (il picciolo duro e la codina sottile), togli l'eventuale filo laterale, poi tagliali a <b>tocchetti di ~3 cm<\/b> — la misura di un boccone da cucchiaio."], ["Soffritto", "Scalda l'olio a fuoco medio-basso. Unisci cipolla, carota e sedano con un pizzico di sale e cuoci 5 minuti: biondo e traslucido, mai dorato."], ["La roveja parte per prima", "Sfuma con il brodo di shiitake filtrato, unisci i funghi affettati e la roveja. La roveja non si ammolla ma vuole ~25 minuti: parte adesso perché è la più lenta. Sobbolli 5 minuti."], ["Il riso", "Aggiungi il riso (se vuoi, tostalo prima un minuto a secco per la nota nocciolata) e cuoci 8 minuti a sobbollire gentile, mescolando ogni tanto."], ["I fagiolini", "Unisci i fagiolini e prosegui ~12 minuti, allungando con acqua calda: deve restare brodosa. A fine cottura la roveja è morbida (~25 min totali), il riso al dente, i fagiolini ancora verdi."], ["Finitura", "Spegni, regola di sale (brodo e roveja sono già sapidi) e pepe. Riposa 2-3 minuti, filo d'olio a crudo. Per chiudere all'umami: a fuoco spento un cucchiaino di <b>tamari<\/b> e qualche goccia di <b>olio di sesamo tostato<\/b> — provato, ci stanno benissimo e danno il taglio giapponese."]]}, "pp": {"sintesi": [["Brodo", "Ammolla gli shiitake 15 min e filtra il liquido: è il brodo. La roveja va in pentola senza ammollo."], ["Soffritto col Sauté", "Soffriggi cipolla, carota e sedano nel cestello, 5 min: resta tutto dentro, fa da base."], ["Carica", "Brodo + acqua, shiitake, riso e roveja (niente fagiolini). Chiudi, valvola su sealing."], ["In pressione", "15 minuti: cuociono insieme roveja e riso integrale."], ["Fagiolini", "Rilascio rapido, riaccendi il Sauté, fagiolini 5 min: restano verdi."], ["Finitura", "Sale, pepe, filo d'olio a crudo. Volendo, tamari + olio di sesamo tostato per la spinta umami."]], "full": [["Brodo lampo", "Copri gli shiitake con l'acqua calda 15 minuti e filtra il liquido (è il brodo). La roveja va in pentola così com'è, senza ammollo."], ["Soffritto col Sauté", "Accendi la funzione Sauté/Rosolatura. Scalda l'olio nel cestello, unisci cipolla, carota e sedano a brunoise e rosola 5 minuti finché biondo. Volendo tosta il riso un minuto. <b>Non togliere niente<\/b>: il soffritto resta nella pentola e fa da base."], ["Carica e chiudi", "Direttamente sopra il soffritto versa il brodo filtrato + acqua a coprire abbondante, unisci shiitake affettati, riso e roveja. NON mettere ancora i fagiolini. Chiudi il coperchio e porta la valvola in posizione <b>sealing<\/b> (sigillo)."], ["Sotto pressione", "Porta a pressione e cuoci 15 minuti: bastano per cuocere insieme roveja (senza ammollo) e riso integrale."], ["Rilascia e fagiolini", "Rilascio rapido dalla valvola, apri. Riaccendi il Sauté, aggiungi i fagiolini (spuntati, a tocchetti di 3 cm) e cuoci 5 minuti: restano verdi e croccanti, non si stracuociono."], ["Finitura", "Regola di sale (assaggia: brodo e roveja sono già sapidi) e pepe. Riposa 2 minuti, filo d'olio a crudo. A fuoco spento, un cucchiaino di <b>tamari<\/b> e qualche goccia di <b>olio di sesamo tostato<\/b>: chiusura umami alla giapponese."]]}};
-const TIPS=[["L'acqua d'ammollo è oro liquido.", "Non buttarla mai e non usare l'ultimo fondo sabbioso: quel deposito è terra dei funghi, va lasciato nella ciotola."], ["Sale a fine, non all'inizio.", "Brodo di shiitake e roveja portano già sapidità; assaggia prima di correggere, eviti di rovinare il piatto."], ["Chiusura umami (consigliata).", "A fuoco spento, un cucchiaino di <b>tamari<\/b> (o coco aminos) e qualche goccia di <b>olio di sesamo tostato<\/b> — provati e promossi: danno profondità e il taglio giapponese senza coprire. Volendo, anche qualche scaglia di <b>nori<\/b> spezzettata appena prima di servire."], ["La nota acida che ti manca.", "La minestra chiede un guizzo acido per non risultare piatta: idealmente la scorza di un limone, ma se non ce l'hai, <b>una puntina di aceto (di riso o di mele) a crudo<\/b> ravviva tutto. Tienilo presente."], ["Crunch e nutrienti:", "una manciata di <b>semi di zucca<\/b> tostati a secco in padella, sparsi sopra, danno croccantezza, zinco e contrasto."], ["Più zuppa o più piatto?", "Più riso = più densa e satolla; più brodo = più leggera e idratante. Regola tu in cottura, è la stessa ricetta."], ["Avanza benissimo.", "Il giorno dopo il riso assorbe e la minestra si addensa: riscaldala dolcemente allungando con un mestolo d'acqua calda o brodo, e rifinisci sempre con olio a crudo."]];
-const TEMPO={"fornello": "40 min", "pressione": "≈ 30 min · a pressione"};
-const HAS_PP=true;
+const BASE=4;
+const ING=[{"name": "Cicoria", "kind": "g", "base": 1000}, {"name": "Aglio", "kind": "g", "base": 2}, {"name": "Peperoncino", "kind": "g", "base": 1}, {"name": "Olio-extravergine-di-oliva", "kind": "g", "base": 50}, {"name": "Limone", "kind": "g", "base": 0.5}, {"name": "Sale", "kind": "g", "base": 5}, {"name": "Alici-e-sardine", "kind": "g", "base": 2}];
+const STEPS={"no": {"sintesi": [["Lessa", "Cicoria pulita in acqua salata abbondante, <b>8-12 min<\/b>: cedevole non spappolata. Scola."], ["Strizza", "Intiepidisci, <b>strizza forte<\/b>, trita grosso. Asciutta = rosola, bagnata = bolle."], ["Soffritto", "Aglio + peperoncino nell'olio, fuoco medio-basso, 2-3 min: aglio <b>biondo<\/b>. (Opz: sciogli 2 acciughe a fuoco spento.)"], ["Ripassa", "Cicoria a fuoco medio-alto, <b>4-5 min<\/b>, lucida. Sala."], ["Finisci", "Succo di <b>½ limone<\/b> + olio a crudo."]], "full": [["Pulizia", "Togli foglie rovinate e torsolo duro; separa le coste dalle foglie nella catalogna. Lava in <b>più cambi d'acqua fredda<\/b> finché non resta sabbia."], ["Lessatura", "Acqua <b>abbondante<\/b> salata (10 g/l) a bollore. Tuffa la cicoria, <b>8-12 min<\/b> a bollore vivace (coste verso 12, foglie verso 8). Più acqua = più amaro estratto. Assaggia un gambo: cedevole. Scola, butta l'acqua."], ["Strizzatura", "Intiepidisci, <b>strizza con forza<\/b> tra le mani o nel colino. Passaggio <b>decisivo<\/b>: l'acqua residua fa bollire invece di rosolare. Trita grosso al coltello."], ["Soffritto", "Olio evo a <b>fuoco medio-basso<\/b> con 2 spicchi d'aglio schiacciati e peperoncino spezzato, <b>2-3 min<\/b>: aglio <b>biondo e profumato<\/b>, mai bruno (amaro). Opzionale: spegni, sciogli 2 filetti d'acciuga con la forchetta 30 sec, riaccendi."], ["Ripassatura", "Alza a <b>medio-alto<\/b>, unisci la cicoria strizzata, <b>salta 4-5 min<\/b> mescolando finché perde l'umidità ed è lucida. Sala (poco se c'è l'acciuga)."], ["Finitura", "Fuori dal fuoco <b>spremi ½ limone<\/b> e gira (smorza l'amaro, aiuta il ferro). Filo d'olio evo a crudo."]]}};
+const TIPS=[];
+const TEMPO={"fornello": "30 min", "pressione": ""};
+const HAS_PP=false;
 
 let servings=BASE, pp=false, mode="sintesi";
-const QUICK=[1, 2, 4, 6];
+const QUICK=[1, 4, 8, 12];
 function fracStr(v){v=Math.round(v*2)/2;if(v<=0)return"0";const w=Math.floor(v),h=(v-w)>=0.5;if(w===0)return"½";return h?w+"½":""+w;}
 function plural(n,o,m){return(Math.round(n*2)/2)<=1.5?o:m;}
 function grams(v){const r=v<100?5:10;return Math.max(r,Math.round(v/r)*r);}
